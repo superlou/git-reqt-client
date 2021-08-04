@@ -81,7 +81,13 @@ export default class DocEditorComponent extends Component {
   @action
   paste() {
     if (this.cutBlock) {
+      let cutIndex = this.args.doc.blockIds.indexOf(this.cutBlock);
       let insertIndex = this.args.doc.blockIds.indexOf(this.selected);
+
+      if (cutIndex < insertIndex) {
+        insertIndex--;
+      }
+
       this.args.doc.blockIds.removeObject(this.cutBlock);
       this.args.doc.blockIds.insertAt(insertIndex, this.cutBlock);
       this.args.doc.save();
