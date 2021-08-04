@@ -1,0 +1,11 @@
+<div class="document" {{did-insert this.addKeyboardShortcuts}}>
+  {{#each @doc.blocks as |block index|}}
+    <BlockEditor @theBlock={{block}}
+                 @select={{this.selectBlock}}
+                 @update={{this.updateBlock}}
+                 @delete={{this.deleteBlock}}
+                 @isSelected={{get this.selectedBlocksList index}}/>
+  {{/each}}
+
+  <button type="button" {{on "click" this.addBlock}}>Add</button>
+</div>

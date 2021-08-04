@@ -1,0 +1,17 @@
+<div class="block" class={{if @isSelected "selected"}}
+     {{on "click" (fn @select @theBlock)}}
+     {{on "dblclick" this.startEdit}}
+     ...attributes>
+  {{#if this.editing}}
+    <Textarea {{on "keydown" this.editKeypress}} @value={{this.editedContent}}
+              {{did-insert this.setFocus}}
+              {{did-insert this.matchSize}}
+              {{did-update this.matchSize this.editedContent}}/>
+  {{else}}
+    <div {{did-insert this.measureRenderHeight}}
+         {{did-update this.measureRenderHeight}}>
+      {{{@theBlock.html}}}
+    </div>
+    <button type="button" {{on "click" (fn @delete @theBlock)}}>x</button>
+  {{/if}}
+</div>
