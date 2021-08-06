@@ -46,14 +46,28 @@ export default class DocEditorComponent extends Component {
     this.selected = block.id;
   }
 
+  configureBlock(block, doc) {
+    if (block.content.includes('shall')) {
+      block.isReq = true;
+
+      if (!block.reqId) {
+        let reqNum = doc.nextNum || 1;
+        block.reqId = doc.reqPrefix + reqNum;
+        doc.nextNum = reqNum + 1;
+      }
+    }
+  }
+
   @action
   updateBlock(block, content) {
     block.content = content;
+    this.configureBlock(block, this.args.doc);
     remark().use(recommended).use(html).process(content, (err, file) => {
       // console.log(err);
       // console.log(String(file));
       block.html = String(file);
       block.save();
+      this.args.doc.save();
     });
   }
 

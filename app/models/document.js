@@ -4,6 +4,8 @@ import { inject as service } from '@ember/service';
 export default class DocumentModel extends Model {
   @attr title;
   @attr blockIds;
+  @attr reqPrefix;
+  @attr nextNum;
 
   @service store;
 

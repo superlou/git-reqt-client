@@ -9,7 +9,9 @@ export default class DocumentCreatorComponent extends Component {
   createDocument() {
     let record = this.store.createRecord('document', {
       title: 'New Document',
-      blocks: [],
+      blockIds: [],
+      nextNum: 1,
+      reqPrefix: 'abc-'
     });
 
     record.save();

@@ -10,6 +10,9 @@
   {{else}}
     <div {{did-insert this.measureRenderHeight}}
          {{did-update this.measureRenderHeight}}>
+      {{#if @theBlock.reqId}}
+        [{{@theBlock.reqId}}]
+      {{/if}}
       {{{@theBlock.html}}}
     </div>
     <button type="button" {{on "click" (fn @delete @theBlock)}}>x</button>
