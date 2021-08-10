@@ -11,7 +11,7 @@ export default class DocumentCreatorComponent extends Component {
       title: 'New Document',
       blockIds: [],
       nextNum: 1,
-      reqPrefix: 'abc-'
+      reqPrefix: 'abc-',
     });
 
     record.save();

@@ -1,4 +1,5 @@
 <div class="block" class={{if @isSelected "selected"}}
+     class={{if @isPendingCut "pending-cut"}}
      {{on "click" (fn @select @theBlock)}}
      {{on "dblclick" this.startEdit}}
      ...attributes>

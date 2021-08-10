@@ -30,9 +30,9 @@ export default class BlockEditorComponent extends Component {
 
   @action
   matchSize(element) {
-    element.style.height = "1px";
-    let scrollHeight = (element.scrollHeight);
-    element.style.height = Math.max(scrollHeight, this.renderHeight) + "px";
+    element.style.height = '1px';
+    let scrollHeight = element.scrollHeight;
+    element.style.height = Math.max(scrollHeight, this.renderHeight) + 'px';
   }
 
   @action

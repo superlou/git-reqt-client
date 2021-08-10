@@ -20,6 +20,10 @@
     border-left: 4px solid #6AF;
   }
 
+  &.pending-cut {
+    opacity: 0.5;
+  }
+
   textarea {
     width: 90%;
     margin: 0px;

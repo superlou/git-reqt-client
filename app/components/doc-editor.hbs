@@ -4,7 +4,8 @@
                  @select={{this.selectBlock}}
                  @update={{this.updateBlock}}
                  @delete={{this.deleteBlock}}
-                 @isSelected={{get this.selectedBlocksList index}}/>
+                 @isSelected={{eq this.selected block.id}}
+                 @isPendingCut={{eq this.cutBlock block.id}}/>
   {{/each}}
 
   <button type="button" {{on "click" this.addBlock}}>Add</button>

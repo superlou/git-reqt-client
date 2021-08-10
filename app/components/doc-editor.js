@@ -13,10 +13,6 @@ export default class DocEditorComponent extends Component {
   @tracked selected = null;
   @tracked cutBlock = null;
 
-  get selectedBlocksList() {
-    return this.args.doc.blocks.map((block) => block.id == this.selected);
-  }
-
   @action
   addBlock() {
     let block = this.store.createRecord('block', {
@@ -62,13 +58,16 @@ export default class DocEditorComponent extends Component {
   updateBlock(block, content) {
     block.content = content;
     this.configureBlock(block, this.args.doc);
-    remark().use(recommended).use(html).process(content, (err, file) => {
-      // console.log(err);
-      // console.log(String(file));
-      block.html = String(file);
-      block.save();
-      this.args.doc.save();
-    });
+    remark()
+      .use(recommended)
+      .use(html)
+      .process(content, (err, file) => {
+        // console.log(err);
+        // console.log(String(file));
+        block.html = String(file);
+        block.save();
+        this.args.doc.save();
+      });
   }
 
   @action
