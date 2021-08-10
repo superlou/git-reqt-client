@@ -1,9 +1,0 @@
-{{page-title "Documents"}}
-
-<DocumentCreator/>
-
-<ul>
-{{#each @model as |document|}}
-  <li><LinkTo @route="document" @model={{document}}>{{document.title}}</LinkTo></li>
-{{/each}}
-</ul>

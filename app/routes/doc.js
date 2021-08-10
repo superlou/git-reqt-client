@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
 
-export default class DocumentsRoute extends Route {
+export default class DocRoute extends Route {
   @service store;
 
-  model() {
-    return this.store.findAll('document');
+  beforeModel() {
+    this.store.findAll('block');
   }
 }

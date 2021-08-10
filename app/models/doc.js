@@ -1,7 +1,7 @@
 import Model, { attr } from '@ember-data/model';
 import { inject as service } from '@ember/service';
 
-export default class DocumentModel extends Model {
+export default class DocModel extends Model {
   @attr title;
   @attr blockIds;
   @attr reqPrefix;
