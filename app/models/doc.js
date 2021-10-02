@@ -7,6 +7,8 @@ export default class DocModel extends Model {
   @attr reqPrefix;
   @attr nextNum;
 
+  @attr version;
+
   @service store;
 
   get blocks() {

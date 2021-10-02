@@ -7,13 +7,19 @@ export default class DocCreatorComponent extends Component {
 
   @action
   createDoc() {
-    let record = this.store.createRecord('doc', {
+    let defaultData = {
       title: 'New Document',
       blockIds: [],
       nextNum: 1,
       reqPrefix: 'abc-',
-    });
+      version: 0,
+    };
 
-    record.save();
+    let doc = this.store.createRecord('doc', defaultData);
+    doc.save();
+
+    let history = this.store.createRecord('docHistory', defaultData);
+    history.doc = doc;
+    history.save();
   }
 }

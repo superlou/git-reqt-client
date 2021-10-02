@@ -15,15 +15,30 @@ export default class DocEditorComponent extends Component {
 
   @action
   addBlock() {
-    let block = this.store.createRecord('block', {
+    let defaultData = {
       content: 'New Block',
       html: '<p>New Block</p>',
-    });
+      version: 0,
+    };
 
+    let block = this.store.createRecord('block', defaultData);
     block.save();
 
-    this.args.doc.blockIds.pushObject(block.id);
-    this.args.doc.save();
+    let blockHistory = this.store.createRecord('blockHistory', defaultData);
+    blockHistory.block = block;
+    blockHistory.save();
+
+    // block.currentBlockHistory = blockHistory;
+    // block.save();
+
+    // this.args.doc.blockIds.pushObject(block.id);
+    // this.args.doc.version++;
+    // this.args.doc.save();
+    //
+    // // todo Need to get ID of current BlockHistory, not Block
+    // let docHistory = this.store.createRecord('docHistory', this.args.doc.toJSON());
+    // docHistory.doc = this.args.doc;
+    // docHistory.save();
   }
 
   @action
