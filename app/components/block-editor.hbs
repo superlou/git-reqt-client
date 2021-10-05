@@ -14,7 +14,7 @@
       {{#if @theBlock.reqId}}
         [{{@theBlock.reqId}}]
       {{/if}}
-      {{{@theBlock.html}}}
+      {{markdown-to-html @theBlock.content}}
     </div>
     <button type="button" {{on "click" (fn @delete @theBlock)}}>x</button>
   {{/if}}

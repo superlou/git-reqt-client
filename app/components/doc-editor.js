@@ -15,39 +15,15 @@ export default class DocEditorComponent extends Component {
 
   @action
   addBlock() {
-    let defaultData = {
+    let block = this.store.createRecord('block', {
       content: 'New Block',
-      html: '<p>New Block</p>',
-      version: 0,
-    };
-
-    let block = this.store.createRecord('block', defaultData);
+      doc: this.args.doc,
+    });
     block.save();
-
-    let blockHistory = this.store.createRecord('blockHistory', defaultData);
-    blockHistory.block = block;
-    blockHistory.save();
-
-    // block.currentBlockHistory = blockHistory;
-    // block.save();
-
-    // this.args.doc.blockIds.pushObject(block.id);
-    // this.args.doc.version++;
-    // this.args.doc.save();
-    //
-    // // todo Need to get ID of current BlockHistory, not Block
-    // let docHistory = this.store.createRecord('docHistory', this.args.doc.toJSON());
-    // docHistory.doc = this.args.doc;
-    // docHistory.save();
   }
 
   @action
   deleteBlock(block) {
-    this.args.doc.blockIds = this.args.doc.blockIds.reject(
-      (id) => id == block.id
-    );
-    this.args.doc.save();
-
     block.deleteRecord();
     block.save();
   }
@@ -57,32 +33,10 @@ export default class DocEditorComponent extends Component {
     this.selected = block.id;
   }
 
-  configureBlock(block, doc) {
-    if (block.content.includes('shall')) {
-      block.isReq = true;
-
-      if (!block.reqId) {
-        let reqNum = doc.nextNum || 1;
-        block.reqId = doc.reqPrefix + reqNum;
-        doc.nextNum = reqNum + 1;
-      }
-    }
-  }
-
   @action
   updateBlock(block, content) {
     block.content = content;
-    this.configureBlock(block, this.args.doc);
-    remark()
-      .use(recommended)
-      .use(html)
-      .process(content, (err, file) => {
-        // console.log(err);
-        // console.log(String(file));
-        block.html = String(file);
-        block.save();
-        this.args.doc.save();
-      });
+    block.save();
   }
 
   @action
@@ -108,18 +62,27 @@ export default class DocEditorComponent extends Component {
 
   @action
   paste() {
-    if (this.cutBlock) {
-      let cutIndex = this.args.doc.blockIds.indexOf(this.cutBlock);
-      let insertIndex = this.args.doc.blockIds.indexOf(this.selected);
-
-      if (cutIndex < insertIndex) {
-        insertIndex--;
-      }
-
-      this.args.doc.blockIds.removeObject(this.cutBlock);
-      this.args.doc.blockIds.insertAt(insertIndex, this.cutBlock);
-      this.args.doc.save();
-      this.cutBlock = null;
+    if (!this.cutBlock) {
+      return;
     }
+
+    let cutIndex = this.args.doc.hasMany('blocks').ids().indexOf(this.cutBlock);
+    let insertIndex = this.args.doc
+      .hasMany('blocks')
+      .ids()
+      .indexOf(this.selected);
+
+    if (cutIndex < insertIndex) {
+      insertIndex--;
+    }
+
+    this.args.doc.blocks.removeAt(cutIndex);
+    this.args.doc.blocks.insertAt(
+      insertIndex,
+      this.store.peekRecord('block', this.cutBlock)
+    );
+
+    this.args.doc.save();
+    this.cutBlock = null;
   }
 }
